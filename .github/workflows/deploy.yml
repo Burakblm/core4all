@@ -17,9 +17,11 @@ jobs:
       env:
         SSH_PRIVATE_KEY: ${{ secrets.GCP_SSH_PRIVATE_KEY }}
       run: |
+        mkdir -p ~/.ssh
         echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
         ssh-keyscan -H ${{ secrets.GCP_VM_HOST }} >> ~/.ssh/known_hosts
+    
 
     - name: Run Hello World on GCP VM
       env:
