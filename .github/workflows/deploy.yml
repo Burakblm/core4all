@@ -1,0 +1,29 @@
+name: SSH into GCP VM and Run Command
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  ssh_to_gcp:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up SSH key
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.GCP_SSH_PRIVATE_KEY }}
+      run: |
+        echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -H ${{ secrets.GCP_VM_HOST }} >> ~/.ssh/known_hosts
+
+    - name: Run Hello World on GCP VM
+      env:
+        HOST: ${{ secrets.GCP_VM_HOST }}
+        USER: ${{ secrets.GCP_VM_USERNAME }}
+      run: |
+        ssh $USER@$HOST 'echo "Hello World from GitHub Actions on GCP VM!"'
