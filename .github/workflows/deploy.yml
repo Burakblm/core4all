@@ -1,4 +1,4 @@
-name: SSH into GCP VM and Run Command
+name: SSH into GCP VM and Run Python Script
 
 on:
   push:
@@ -21,11 +21,18 @@ jobs:
         echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
         ssh-keyscan -H ${{ secrets.GCP_VM_HOST }} >> ~/.ssh/known_hosts
-    
 
-    - name: Run Hello World on GCP VM
+
+    - name: Run main.py on GCP VM
       env:
         HOST: ${{ secrets.GCP_VM_HOST }}
         USER: ${{ secrets.GCP_VM_USERNAME }}
       run: |
-        ssh $USER@$HOST 'echo "Hello World from GitHub Actions on GCP VM!"'
+        ssh $USER@$HOST << 'EOF'
+        # Yeni bir dosya oluştur
+        echo "print('Hello from main.py')" > ~/main.py
+        # Python dosyasını çalıştır
+        python3 ~/main.py
+        # Sonucu bir dosyaya yaz
+        echo "Execution completed!" > ~/execution_log.txt
+        EOF
