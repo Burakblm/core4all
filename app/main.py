@@ -6,4 +6,4 @@ app = FastAPI()
 
 @app.get("/")
 def root():
-    return {"message": "server is running!!!"}
+    return {"message": "verison 0.0.1!!!"}

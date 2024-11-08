@@ -63,6 +63,14 @@ jobs:
         USER: ${{ secrets.GCP_VM_USERNAME }}
       run: |
         ssh $USER@$HOST << "EOF"
+
+        port_container=$(sudo docker ps -q --filter publish=8000)
+        if [ -n "$port_container" ]; then
+        sudo docker stop $port_container
+        sudo docker rm $port_container
+        fi
+
+
         sudo docker pull burakblm/core4all:latest
 
         container_id=$(sudo docker ps -aqf "ancestor=burakblm/core4all")
