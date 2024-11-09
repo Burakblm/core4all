@@ -57,7 +57,7 @@ jobs:
         ssh-keyscan -H ${{ secrets.GCP_VM_HOST }} >> ~/.ssh/known_hosts
 
 
-    - name: Run main.py on GCP VM
+    - name: Pull and Run docker images
       env:
         HOST: ${{ secrets.GCP_VM_HOST }}
         USER: ${{ secrets.GCP_VM_USERNAME }}
