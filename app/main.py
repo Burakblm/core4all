@@ -1,12 +1,11 @@
 from fastapi import FastAPI
+from app.api.main import api_router
+from app.core.config import settings
 
 
-app = FastAPI()
+app = FastAPI(
+    title=settings.PROJECT_NAME,
+    openapi_url=f"{settings.API_V1_STR}/openapi.json"
+)
 
-@app.get("/users")
-def get_users():
-    return {"users": ["burak", "ahmet", "selim", "osman"]}
-
-@app.get("/")
-def root():
-    return {"message": "verison 0.0.1!!!"}
+app.include_router(api_router, prefix=settings.API_V1_STR)
