@@ -8,4 +8,8 @@ app = FastAPI(
     openapi_url=f"{settings.API_V1_STR}/openapi.json"
 )
 
+@app.get("/")
+def root():
+    return {"message": "server is running!!!"}
+
 app.include_router(api_router, prefix=settings.API_V1_STR)
