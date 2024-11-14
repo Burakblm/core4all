@@ -1,7 +1,7 @@
 version: "3"
 services:
   api:
-    image: burakblm/core4all:latest  # Updated to use the Docker Hub image instead of building locally
+    image: burakblm/core4all:latest
     ports:
       - 8000:8000
     environment:
@@ -26,7 +26,7 @@ services:
       - postgres-db:/var/lib/postgresql/data
 
   prestart:
-    image: burakblm/core4all:latest  # Use the same image to run prestart script
+    image: burakblm/core4all:latest
     command: bash /app/scripts/prestart.sh
     environment:
       - PYTHONPATH=/app
