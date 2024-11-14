@@ -59,4 +59,5 @@ jobs:
 
           # Start the Docker Compose services
           sudo docker-compose -f /path/to/docker-compose.yml up -d
+          
           EOF
