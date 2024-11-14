@@ -1,13 +1,9 @@
 version: "3"
 services:
   api:
-    build: .
+    image: burakblm/core4all:latest  # Updated to use the Docker Hub image instead of building locally
     ports:
       - 8000:8000
-    volumes:
-      - ./:/app
-    # env_file:
-    #     - ./.env
     environment:
       - POSTGRES_SERVER=postgres
       - POSTGRES_PORT=5432
@@ -15,13 +11,11 @@ services:
       - POSTGRES_DB=db
       - POSTGRES_USER=burak
       - ALGORITHM=HS256
-    
-    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
     depends_on:
       - postgres
 
   postgres:
-    image: postgres
+    image: postgres:latest
     ports:
       - 5432:5432
     environment:
@@ -32,10 +26,8 @@ services:
       - postgres-db:/var/lib/postgresql/data
 
   prestart:
-    build: .
+    image: burakblm/core4all:latest  # Use the same image to run prestart script
     command: bash /app/scripts/prestart.sh
-    volumes:
-      - ./:/app  # Ensure the entire context is mapped to /app so scripts can be accessed
     environment:
       - PYTHONPATH=/app
       - POSTGRES_SERVER=postgres
@@ -47,7 +39,6 @@ services:
     depends_on:
       - postgres
       - api
-
 
 volumes:
   postgres-db:
