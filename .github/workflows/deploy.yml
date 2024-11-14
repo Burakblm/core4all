@@ -50,14 +50,18 @@ jobs:
           USER: ${{ secrets.GCP_VM_USERNAME }}
         run: |
           ssh $USER@$HOST << "EOF"
+
+          cd /home/burak/core4all
+
+          git pull
           
           # Stop and remove existing containers
-          sudo docker-compose -f /path/to/docker-compose.yml down
+          sudo docker-compose -f /home/burak/core4all/docker-compose.yml down
 
           # Pull the latest image
           sudo docker pull burakblm/core4all:latest
 
           # Start the Docker Compose services
-          sudo docker-compose -f /path/to/docker-compose.yml up -d
-          
+          sudo docker-compose -f /home/burak/core4all/docker-compose.yml up -d
+
           EOF
